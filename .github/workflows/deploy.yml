@@ -21,6 +21,7 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             cd ~/Online_food_ordering_backendCode
-            git pull origin main
+            git fetch --all
+            git reset --hard origin/main
             docker-compose down
             docker-compose up -d --build
