@@ -1,0 +1,26 @@
+name: Deploy to EC2
+
+"on":
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Deploy on EC2 via SSH
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: 3.109.87.115
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            cd ~/Online_food_ordering_backendCode
+            git pull origin main
+            docker-compose down
+            docker-compose up -d --build
