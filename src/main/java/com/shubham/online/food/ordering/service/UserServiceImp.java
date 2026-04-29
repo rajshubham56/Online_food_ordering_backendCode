@@ -16,6 +16,11 @@ public class UserServiceImp implements UserService {
     @Override
     public User findUserByJwtToken(String jwt) throws Exception {
         String email = jwtProvider.getEmailFromJwtToken(jwt);
+
+        if (email == null) {
+            throw new Exception("Invalid or expired JWT token");
+        }
+
         User user = findUserByEmail(email);
         return user;
     }

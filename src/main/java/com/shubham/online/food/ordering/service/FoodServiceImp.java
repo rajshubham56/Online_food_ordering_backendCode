@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 @Service
 public class FoodServiceImp implements FoodService{
 
+    @Autowired
     private FoodRepository foodRepository;
 
     @Override
@@ -31,7 +32,7 @@ public class FoodServiceImp implements FoodService{
         food.setVegetarian(req.isVegetarian());
 
         Food savedFood = foodRepository.save(food);
-        restaurant.getFoods().add(savedFood);
+//        restaurant.getFoods().add(savedFood);
 
         return savedFood;
     }

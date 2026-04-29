@@ -19,6 +19,7 @@ public class Restaurant {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @JsonIgnore
     @OneToOne
     private User owner;
 
@@ -34,11 +35,11 @@ public class Restaurant {
 
     private String openingHours;
 
-    @OneToMany(mappedBy = "restaurant",cascade = CascadeType.ALL,orphanRemoval = true)
+    @JsonIgnore
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Order> orders = new ArrayList<>();
 
-    @ElementCollection
-    @Column(length = 1000)
+    @ElementCollection(fetch = FetchType.EAGER)
     private List<String> images;
 
     private LocalDateTime registrationDate;

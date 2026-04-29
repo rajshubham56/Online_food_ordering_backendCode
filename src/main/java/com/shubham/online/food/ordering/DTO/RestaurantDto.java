@@ -1,7 +1,6 @@
 package com.shubham.online.food.ordering.DTO;
 
-import jakarta.persistence.Embeddable;
-import jakarta.persistence.Embedded;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,5 +14,6 @@ public class RestaurantDto {
     private List<String> images;
 
     private String description;
+
     private Long id;
 }

@@ -1,5 +1,6 @@
 package com.shubham.online.food.ordering.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,11 +22,10 @@ public class IngredientCategory {
     private String name;
 
     @ManyToOne
+    @JsonIgnore
     private Restaurant restaurant;
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<IngredientsItem> ingredients = new ArrayList<>();
-
-
-
 }

@@ -8,6 +8,7 @@ import com.shubham.online.food.ordering.repository.CartItemRepository;
 import com.shubham.online.food.ordering.repository.CartRepository;
 import com.shubham.online.food.ordering.repository.FoodRepository;
 import com.shubham.online.food.ordering.request.AddCartItemRequest;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,9 +31,10 @@ public class CartServiceImp implements CartService{
         Food food = foodService.findFoodById(req.getFoodId());
 
         Cart cart = cartRepository.findByCustomerId(user.getId());
+        Hibernate.initialize(cart.getItem());
 
         for(CartItem cartItem : cart.getItem()){
-            if(cartItem.getFood().equals(food)){
+            if(cartItem.getFood().getId().equals(food.getId())){
                 int newQuantity=cartItem.getQuantity()+req.getQuantity();
                 return updateCartItemQuantity(cartItem.getId(),newQuantity);
             }

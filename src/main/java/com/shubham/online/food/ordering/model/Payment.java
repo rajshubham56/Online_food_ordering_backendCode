@@ -1,30 +1,29 @@
 package com.shubham.online.food.ordering.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderItem {
+public class Payment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne
-    @JsonIgnore
-    private Food food;
+    private String razorpayOrderId;
+    private String razorpayPaymentId;
+    private String razorpaySignature;
 
-    private int Quantity;
+    private Long amount;
+    private String currency;
 
-    private long totalPrice;
+    private String status;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    private List<String> ingredients;}
+    @OneToOne
+    private Order order;
+}

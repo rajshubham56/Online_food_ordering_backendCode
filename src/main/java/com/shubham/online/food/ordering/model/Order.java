@@ -31,7 +31,7 @@ public class Order {
     @ManyToOne
     private Address deliveryAddress;
 
-    @ManyToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private List<OrderItem> items;
 
 //    private Payment payment;

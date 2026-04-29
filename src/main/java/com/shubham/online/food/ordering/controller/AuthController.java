@@ -9,6 +9,7 @@ import com.shubham.online.food.ordering.repository.UserRepository;
 import com.shubham.online.food.ordering.request.LoginRequest;
 import com.shubham.online.food.ordering.response.AuthResponse;
 import com.shubham.online.food.ordering.service.CustomerUserDeatailService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.http.HttpStatus;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Collection;
 @RestController
 @RequestMapping("/auth")
+@CrossOrigin(origins = "http://localhost:3001")
 public class AuthController {
     @Autowired
     private UserRepository  userRepository;
@@ -38,7 +40,7 @@ public class AuthController {
     private CartRepository cartRepository;
 
     @PostMapping("/signup")
-    public ResponseEntity<AuthResponse> createUserHandler(@RequestBody User user) throws Exception {
+    public ResponseEntity<AuthResponse> createUserHandler(@Valid @RequestBody User user) throws Exception {
 
         User isEmailExist = userRepository.findByEmail(user.getEmail());
         if(isEmailExist!=null){
@@ -73,7 +75,7 @@ public class AuthController {
     }
 
 
-    @GetMapping("/signin")
+    @PostMapping("/signin")
     public ResponseEntity<AuthResponse> signin(@RequestBody LoginRequest req) {
         String username = req.getEmail();
         String password = req.getPassword();

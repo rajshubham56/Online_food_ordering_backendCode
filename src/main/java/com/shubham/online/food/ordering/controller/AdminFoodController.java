@@ -16,27 +16,30 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/admin/food")
 public class AdminFoodController {
+
     @Autowired
     private FoodService foodService;
+
     @Autowired
     private UserService userService;
+
     @Autowired
     private RestaurantService restaurantService;
+
     @PostMapping
     public ResponseEntity<Food> createFood(@RequestBody CreateFoodRequest req,
-                                           @RequestHeader("Authentication") String jwt) throws Exception {
+                                           @RequestHeader("Authorization") String jwt) throws Exception {
 
         User user = userService.findUserByJwtToken(jwt);
         Restaurant restaurant = restaurantService.findRestaurantById(req.getRestaurentId());
-        Food food = foodService.createFood(req , req.getCategory(),restaurant);
+        Food food = foodService.createFood(req, req.getCategory(), restaurant);
 
-        return  new ResponseEntity<>(food, HttpStatus.CREATED);
-
+        return new ResponseEntity<>(food, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<MessageResponse> deleteFood(@PathVariable Long id,
-                                                      @RequestHeader("Authentication") String jwt) throws Exception {
+                                                      @RequestHeader("Authorization") String jwt) throws Exception {
 
         User user = userService.findUserByJwtToken(jwt);
 
@@ -44,24 +47,17 @@ public class AdminFoodController {
         MessageResponse res = new MessageResponse();
         res.setMessage("food delete successfully");
 
-        return  new ResponseEntity<>(res, HttpStatus.CREATED);
-
+        return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Food> updateFoodAvaibilityStatus(@RequestBody Long id,
-                                           @RequestHeader("Authentication") String jwt) throws Exception {
+    public ResponseEntity<Food> updateFoodAvaibilityStatus(@PathVariable Long id,
+                                                           @RequestHeader("Authorization") String jwt) throws Exception {
 
         User user = userService.findUserByJwtToken(jwt);
 
         Food food = foodService.updateAvaibilityStatus(id);
 
-        return  new ResponseEntity<>(food, HttpStatus.CREATED);
-
+        return new ResponseEntity<>(food, HttpStatus.OK);
     }
-
-
-
-
-
 }

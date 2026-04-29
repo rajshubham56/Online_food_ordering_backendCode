@@ -10,6 +10,7 @@ import com.shubham.online.food.ordering.repository.UserRepository;
 import com.shubham.online.food.ordering.request.CreateRestaurantRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -48,17 +49,31 @@ public class RestaurantServiceImp implements RestaurantService{
     public Restaurant updateRestaurant(Long restaurantId, CreateRestaurantRequest updatedRestaurant) throws Exception {
         Restaurant restaurant = findRestaurantById(restaurantId);
 
-        if(restaurant.getCuisineType()!=null){
+        if(updatedRestaurant.getCuisineType() != null){
             restaurant.setCuisineType(updatedRestaurant.getCuisineType());
         }
-        if(restaurant.getDescription()!=null){
+        if(updatedRestaurant.getDescription() != null){
             restaurant.setDescription(updatedRestaurant.getDescription());
         }
-        if(restaurant.getName()!=null){
+        if(updatedRestaurant.getName() != null){
             restaurant.setName(updatedRestaurant.getName());
         }
-        return restaurantRepository.save(restaurant);
+        if(updatedRestaurant.getOpeningHours() != null){
+            restaurant.setOpeningHours(updatedRestaurant.getOpeningHours());
+        }
+        if(updatedRestaurant.getImages() != null){
+            restaurant.setImages(updatedRestaurant.getImages());
+        }
+        if(updatedRestaurant.getContactInformation() != null){
+            restaurant.setContactInformation(updatedRestaurant.getContactInformation());
+        }
+        // ← FIX: Address pehle save karo phir set karo
+        if(updatedRestaurant.getAddress() != null){
+            Address savedAddress = addressRepository.save(updatedRestaurant.getAddress());
+            restaurant.setAddress(savedAddress);
+        }
 
+        return restaurantRepository.save(restaurant);
     }
 
     @Override
